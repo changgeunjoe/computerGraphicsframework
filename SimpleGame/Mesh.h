@@ -25,7 +25,7 @@ public:
 	UINT m_nStride = 0;
 	UINT m_nOffset = 0;
 	GLuint m_VBORect = 0;
-	std::vector<CVertex> m_vVertices;
+
 public:
 	virtual void BuildCubeMesh(float fWidth, float fHeight, float fDepth);
 

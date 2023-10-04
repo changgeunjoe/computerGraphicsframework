@@ -134,12 +134,16 @@ void CObject::BuildObject()
 void CObject::Render()
 {
 	glUseProgram(m_SolidRectShader);
-	int attribPosition = glGetAttribLocation(m_SolidRectShader, "a_Position");
-	glEnableVertexAttribArray(attribPosition);
-	glBindBuffer(GL_ARRAY_BUFFER, m_pMesh->m_VBORect);//없어도 되는거
-	glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * m_pMesh->m_vVertices.size(), 0);
 
+
+	int posLoc = glGetAttribLocation(m_SolidRectShader, "a_Position");
+	glEnableVertexAttribArray(posLoc);
+	glBindBuffer(GL_ARRAY_BUFFER, m_pMesh->m_VBORect);
+	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE,
+		sizeof(float) * 3, 0);
+
+	
 	glUniformMatrix4fv(glGetUniformLocation(m_SolidRectShader, "u_WorldMatrix"),1, GL_FALSE, glm::value_ptr(m_xmf4x4World));
 
-	glDrawArrays(GL_TRIANGLES, 0, m_pMesh->m_vVertices.size());//레스터라이제이션
+	glDrawArrays(GL_TRIANGLES, 0, 36);//레스터라이제이션
 }

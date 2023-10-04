@@ -15,4 +15,8 @@
 #include "Dependencies/glm/gtc/matrix_transform.hpp"
 #include "Dependencies/glm/gtc/type_ptr.hpp"
 
+#include "Imgui/imgui_impl_glut.h"
+#include "Imgui/imgui.h"
+#include "Imgui/imgui_impl_opengl3.h"
+
 using namespace std;
