@@ -1,7 +1,7 @@
 /*
 WARP게임 프레임워크입니다.
 */
-
+#pragma once
 #include "stdafx.h"
 #include "GameMananager.h"
 #include "GUIMGR.h"
@@ -30,6 +30,7 @@ void MouseInput(int button, int state, int x, int y)
 
 void KeyInput(unsigned char key, int x, int y)
 {
+	g_GameMananager->KeyInput(key, x, y);
 	switch (key) {
 		case 'w':
 			break;
@@ -81,11 +82,12 @@ int main(int argc, char **argv)
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);
-	glutKeyboardFunc(KeyInput);
+
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
 	g_GUIMananger = new GUIMgr();
 	g_GUIMananger->Init();
+	glutKeyboardFunc(KeyInput);
 	glutMainLoop();
 	
 

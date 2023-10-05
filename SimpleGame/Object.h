@@ -19,10 +19,13 @@ public:
 	GLuint CompileShaders(char* filenameVS, char* filenameFS);
 protected:
 	glm::mat4x4 m_xmf4x4World;//월드 행렬
+	float f_Speed;
 public:
 	virtual void BuildObject();
 	virtual void Render();
 	
+	void MoveDirection(glm::vec3 direction);
+
 	CMesh* m_pMesh = NULL;
 	GLuint m_SolidRectShader = 0;
 

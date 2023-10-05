@@ -1,3 +1,4 @@
+#pragma once
 #include "stdafx.h"
 #include "Object.h"
 #include "Mesh.h"
@@ -7,7 +8,8 @@ class GameMananger;
 CObject::CObject()
 {
 	m_pMesh = new CMesh;
-	glm::mat4x4 m_xmf4x4World = glm::mat4x4(1.0f);
+	m_xmf4x4World = glm::mat4(1.0f);
+	f_Speed = 0.1f;
 }
 
 CObject::~CObject()
@@ -146,4 +148,10 @@ void CObject::Render()
 	glUniformMatrix4fv(glGetUniformLocation(m_SolidRectShader, "u_WorldMatrix"),1, GL_FALSE, glm::value_ptr(m_xmf4x4World));
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);//레스터라이제이션
+}
+
+void CObject::MoveDirection(glm::vec3 direction)
+{
+	
+	m_xmf4x4World = glm::translate(m_xmf4x4World, direction* f_Speed);
 }

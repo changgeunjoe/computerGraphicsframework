@@ -1,6 +1,17 @@
+#pragma once
 #include "stdafx.h"
 #include "GameMananager.h"
 #include "Object.h"
+
+namespace DIRECTION {
+	vec3 Moveforward = glm::vec3(0.0f, 0.0f, -1.0f);
+	vec3 MoveBack = glm::vec3(0.0f, 0.0f, 1.0f);
+	vec3 MoveRight = glm::vec3(1.0f, 0.0f, 0.0f);
+	vec3 MoveLeft = glm::vec3(-1.0f, 0.0f, 0.0f);
+	vec3 MoveUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	vec3 MoveDown = glm::vec3(0.0f, -1.0f, 0.0f);
+}
+
 GameMananager::GameMananager(int windowSizeX, int windowSizeY)
 {
 	Initialize(windowSizeX, windowSizeY);
@@ -35,20 +46,6 @@ bool GameMananager::IsInitialized()
 	return m_Initialized;
 }
 
-void GameMananager::CreateVertexBufferObjects()
-{
-	//float rect[]
-	//	=
-	//{
-	//	-2.f / m_WindowSizeX, -1.f / m_WindowSizeY, 0.f, -1.f / m_WindowSizeX, 1.f / m_WindowSizeY, 0.f, 1.f / m_WindowSizeX, 2.f / m_WindowSizeY, 0.f, //Triangle1
-	//	-1.f / m_WindowSizeX, -1.f / m_WindowSizeY, 0.f,  2.f / m_WindowSizeX, 1.f / m_WindowSizeY, 0.f, 1.f / m_WindowSizeX, -1.f / m_WindowSizeY, 0.f, //Triangle2
-	//};
-
-	//glGenBuffers(1, &m_VBORect);//
-	//glBindBuffer(GL_ARRAY_BUFFER, m_VBORect);//vbo 버퍼를 만들어줄거야
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(rect), rect, GL_STATIC_DRAW);//ppt 55번째 줄
-
-}
 
 void GameMananager::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
 {
@@ -158,6 +155,32 @@ GLuint GameMananager::CompileShaders(char* filenameVS, char* filenameFS)
 	std::cout << filenameVS << ", " << filenameFS << " Shader compiling is done.";
 
 	return ShaderProgram;
+}
+
+void GameMananager::KeyInput(unsigned char key, int x, int y)
+{
+	switch (key) {
+	case 'w':
+		CubeObject->MoveDirection(DIRECTION::Moveforward);
+		break;
+	case 's':
+		CubeObject->MoveDirection(DIRECTION::MoveBack);
+		break;
+	case 'd':
+		CubeObject->MoveDirection(DIRECTION::MoveRight);
+		break;
+	case 'a':
+		CubeObject->MoveDirection(DIRECTION::MoveLeft);
+		break;
+	case 'q':
+		CubeObject->MoveDirection(DIRECTION::MoveUp);
+		break;
+	case 'e':
+		CubeObject->MoveDirection(DIRECTION::MoveDown);
+		break;
+	default:
+		break;
+	}
 }
 
 
