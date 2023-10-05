@@ -129,7 +129,7 @@ GLuint CObject::CompileShaders(char* filenameVS, char* filenameFS)
 
 void CObject::BuildObject()
 {
-	m_pMesh->BuildCubeMesh(0.1,0.1,0.1);//큐브 메쉬 만들기
+	m_pMesh->BuildCubeMesh(0.5,0.5,0.5);//큐브 메쉬 만들기
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
 }
 
@@ -150,8 +150,28 @@ void CObject::Render()
 	glDrawArrays(GL_TRIANGLES, 0, 36);//레스터라이제이션
 }
 
+void CObject::SetinitScale(glm::vec3 &Scale)
+{
+	glm::vec3 position = glm::vec3(m_xmf4x4World[3]);
+	glm::mat4 initmatrix = glm::mat4(1.0f);
+	m_xmf4x4World = glm::scale(initmatrix, Scale);//자전
+	m_xmf4x4World = glm::translate(m_xmf4x4World, position);
+}
+
+void CObject::SetScale(glm::vec3 &Scale)
+{
+	m_xmf4x4World = glm::scale(m_xmf4x4World, Scale);//자전
+}
+
+void CObject::Rotate(float fPitch, float fYaw, float fRoll)
+{
+	m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fPitch), glm::vec3(1.0, 0, 0));//자전
+	m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fYaw), glm::vec3(0, 1.0, 0));//자전
+	m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fRoll), glm::vec3(0, 0, 1.0));//자전
+}
+
 void CObject::MoveDirection(glm::vec3 direction)
 {
-	
 	m_xmf4x4World = glm::translate(m_xmf4x4World, direction* f_Speed);
 }
+

@@ -6,15 +6,16 @@ WARP게임 프레임워크입니다.
 #include "GameMananager.h"
 #include "GUIMGR.h"
 GameMananager *g_GameMananager = NULL;
-GUIMgr* g_GUIMananger = NULL;
+GUIMgr g_GUIMananger ;
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
 	
 	//g_GameMananager->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
+	g_GameMananager->Animate(1);
 	g_GameMananager->Render();
-	g_GUIMananger->Render();
+	g_GUIMananger.Render();
 	glutSwapBuffers();
 }
 
@@ -85,8 +86,8 @@ int main(int argc, char **argv)
 
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
-	g_GUIMananger = new GUIMgr();
-	g_GUIMananger->Init();
+	//g_GUIMananger = new GUIMgr();
+	g_GUIMananger.Init();
 	glutKeyboardFunc(KeyInput);
 	glutMainLoop();
 	

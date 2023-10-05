@@ -2,6 +2,9 @@
 #include "stdafx.h"
 #include "GameMananager.h"
 #include "Object.h"
+#include "GUIMGR.h"
+
+extern GUIMgr g_GUIMananger;
 
 namespace DIRECTION {
 	vec3 Moveforward = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -178,9 +181,18 @@ void GameMananager::KeyInput(unsigned char key, int x, int y)
 	case 'e':
 		CubeObject->MoveDirection(DIRECTION::MoveDown);
 		break;
+	case 'r':
+		CubeObject->Rotate(0,5,0);
+		break;
 	default:
 		break;
 	}
+}
+
+void GameMananager::Animate(float fTimeelapsed)
+{
+	glm::vec3 CubeScale = glm::vec3(g_GUIMananger.GetScale());
+	CubeObject->SetinitScale(CubeScale);
 }
 
 

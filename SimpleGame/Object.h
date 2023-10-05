@@ -24,8 +24,10 @@ public:
 	virtual void BuildObject();
 	virtual void Render();
 	
+	void SetinitScale(glm::vec3 &Scale);
+	void SetScale(glm::vec3 &Scale);
+	void Rotate(float fPitch, float fYaw, float fRoll);
 	void MoveDirection(glm::vec3 direction);
-
 	CMesh* m_pMesh = NULL;
 	GLuint m_SolidRectShader = 0;
 

@@ -19,6 +19,7 @@ public:
 	void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType);
 	GLuint CompileShaders(char* filenameVS, char* filenameFS);
 	void KeyInput(unsigned char key, int x, int y);
+	void Animate(float fTimeelapsed);
 	//void GetGLPosition(float x, float y, float *newX, float *newY);
 private:
 	
