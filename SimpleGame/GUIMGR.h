@@ -6,7 +6,7 @@ class GUIMgr
 {
 private:
 	ImGuiContext* gui_context;
-	float Scale = 0.0f;
+	float Scale = 1.0f;
 	int counter = 0;
 	bool show_demo_window = true;
 	bool show_another_window = false;

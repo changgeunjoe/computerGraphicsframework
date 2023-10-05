@@ -152,10 +152,13 @@ void CObject::Render()
 
 void CObject::SetinitScale(glm::vec3 &Scale)
 {
-	glm::mat4 tmpxmf4x4world= m_xmf4x4World;
+	glm::mat4 tmpxmf4x4world = m_xmf4x4World;
 	glm::mat4 initmatrix = glm::mat4(1.0f);
 	m_xmf4x4World = glm::scale(initmatrix, Scale);//자전
 	m_xmf4x4World[3] = tmpxmf4x4world[3];
+	m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(v3_tmpRotate.x), glm::vec3(1.0, 0, 0));//자전
+	m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(v3_tmpRotate.y), glm::vec3(0, 1.0, 0));//자전
+	m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(v3_tmpRotate.z), glm::vec3(0, 0, 1.0));//자전
 }
 
 void CObject::SetScale(glm::vec3 &Scale)
@@ -165,9 +168,10 @@ void CObject::SetScale(glm::vec3 &Scale)
 
 void CObject::Rotate(float fPitch, float fYaw, float fRoll)
 {
-	m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fPitch), glm::vec3(1.0, 0, 0));//자전
-	m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fYaw), glm::vec3(0, 1.0, 0));//자전
-	m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fRoll), glm::vec3(0, 0, 1.0));//자전
+	v3_tmpRotate += vec3(fPitch, fYaw, fRoll);
+	//m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fPitch), glm::vec3(1.0, 0, 0));//자전
+	//m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fYaw), glm::vec3(0, 1.0, 0));//자전
+	//m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fRoll), glm::vec3(0, 0, 1.0));//자전
 }
 
 void CObject::MoveDirection(glm::vec3 direction)

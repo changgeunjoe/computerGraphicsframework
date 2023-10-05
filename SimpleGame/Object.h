@@ -20,6 +20,8 @@ public:
 protected:
 	glm::mat4x4 m_xmf4x4World;//월드 행렬
 	float f_Speed;
+	vec3 v3_tmpScale=vec3(1.0f);
+	vec3 v3_tmpRotate = vec3(0.0f);
 public:
 	virtual void BuildObject();
 	virtual void Render();
