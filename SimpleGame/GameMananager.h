@@ -26,5 +26,6 @@ private:
 	unsigned int m_WindowSizeY{};
 protected:
 	CObject* CubeObject{};
+	
 };
 

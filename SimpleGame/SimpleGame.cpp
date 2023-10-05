@@ -3,10 +3,10 @@ WARP게임 프레임워크입니다.
 */
 
 #include "stdafx.h"
-
-
+#include "GameMananager.h"
+#include "GUIMGR.h"
 GameMananager *g_GameMananager = NULL;
-
+GUIMgr* g_GUIMananger = NULL;
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -14,6 +14,7 @@ void RenderScene(void)
 	
 	//g_GameMananager->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
 	g_GameMananager->Render();
+	g_GUIMananger->Render();
 	glutSwapBuffers();
 }
 
@@ -69,19 +70,24 @@ int main(int argc, char **argv)
 
 	// Initialize GameMananager
 	g_GameMananager = new GameMananager(500, 500);
+
 	if (!g_GameMananager->IsInitialized())
 	{
 		std::cout << "GameMananager could not be initialized.. \n";
 	}
 	g_GameMananager->BuildObjects();
+	
+	
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);
 	glutKeyboardFunc(KeyInput);
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
-
+	g_GUIMananger = new GUIMgr();
+	g_GUIMananger->Init();
 	glutMainLoop();
+	
 
 	delete g_GameMananager;
 
