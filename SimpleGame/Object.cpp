@@ -152,10 +152,10 @@ void CObject::Render()
 
 void CObject::SetinitScale(glm::vec3 &Scale)
 {
-	glm::vec3 position = glm::vec3(m_xmf4x4World[3]);
+	glm::mat4 tmpxmf4x4world= m_xmf4x4World;
 	glm::mat4 initmatrix = glm::mat4(1.0f);
 	m_xmf4x4World = glm::scale(initmatrix, Scale);//ÀÚÀü
-	m_xmf4x4World = glm::translate(m_xmf4x4World, position);
+	m_xmf4x4World[3] = tmpxmf4x4world[3];
 }
 
 void CObject::SetScale(glm::vec3 &Scale)
