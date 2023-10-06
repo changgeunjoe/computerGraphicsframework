@@ -1,6 +1,6 @@
 #pragma once
 class CObject;
-
+class CCamera;
 
 class GameMananager
 {
@@ -15,9 +15,8 @@ public:
 
 	void Initialize(int windowSizeX, int windowSizeY);
 	virtual void BuildObjects();
-	bool ReadFile(char* filename, std::string *target);
-	void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType);
-	GLuint CompileShaders(char* filenameVS, char* filenameFS);
+	void MouseInput(int button, int state, int x, int y);
+	
 	void KeyInput(unsigned char key, int x, int y);
 	void Animate(float fTimeelapsed);
 	//void GetGLPosition(float x, float y, float *newX, float *newY);
@@ -28,7 +27,8 @@ private:
 	unsigned int m_WindowSizeX{};
 	unsigned int m_WindowSizeY{};
 protected:
-	CObject* CubeObject{};
+	CObject* m_pCubeObject{};
+	CCamera* m_pMainCamera{};
 	
 };
 
