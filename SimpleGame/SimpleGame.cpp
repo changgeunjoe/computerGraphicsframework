@@ -79,7 +79,9 @@ int main(int argc, char **argv)
 	}
 	g_GameMananager->BuildObjects();
 	
-	
+	glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CW);
+	glCullFace(GL_FRONT);
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);
