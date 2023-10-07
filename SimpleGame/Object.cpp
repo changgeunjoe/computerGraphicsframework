@@ -22,22 +22,24 @@ CObject::~CObject()
 void CObject::BuildObject()
 {
 	m_pMesh->BuildCubeMesh(0.5,0.5,0.5);//큐브 메쉬 만들기
-	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
+	
 }
 
-void CObject::Render()
+void CObject::Render(GLuint &mShader )
 {
-	glUseProgram(m_SolidRectShader);
+	glUseProgram(mShader);
 
 
-	int posLoc = glGetAttribLocation(m_SolidRectShader, "a_Position");
+	int posLoc = glGetAttribLocation(mShader, "a_Position");
 	glEnableVertexAttribArray(posLoc);
 	glBindBuffer(GL_ARRAY_BUFFER, m_pMesh->m_VBORect);
 	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE,
 		sizeof(float) * 3, 0);
 
 	
-	glUniformMatrix4fv(glGetUniformLocation(m_SolidRectShader, "u_WorldMatrix"),1, GL_FALSE, glm::value_ptr(m_xmf4x4World));
+	glUniformMatrix4fv(glGetUniformLocation(mShader, "u_WorldMatrix"),1, GL_FALSE, glm::value_ptr(m_xmf4x4World));
+
+	//glUniformMatrix4fv(glGetUniformLocation(mShader, "u_ViewMatrix"), 1, GL_FALSE, glm::value_ptr(m_xmf4x4viewWorld));
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);//레스터라이제이션
 }

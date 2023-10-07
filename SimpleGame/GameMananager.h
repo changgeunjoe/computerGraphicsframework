@@ -16,6 +16,7 @@ public:
 	void Initialize(int windowSizeX, int windowSizeY);
 	virtual void BuildObjects();
 	void MouseInput(int button, int state, int x, int y);
+	void MotionInput(float x, float y);
 	
 	void KeyInput(unsigned char key, int x, int y);
 	void Animate(float fTimeelapsed);
@@ -30,6 +31,8 @@ protected:
 	CObject* m_pCubeObject{};
 	CCamera* m_pMainCamera{};
 	
+
+	GLuint m_SolidRectShader = 0;
 };
 
 

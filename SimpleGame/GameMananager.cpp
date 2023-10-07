@@ -32,11 +32,8 @@ void GameMananager::Initialize(int windowSizeX, int windowSizeY)
 	m_WindowSizeX = windowSizeX;
 	m_WindowSizeY = windowSizeY;
 	m_pMainCamera = new CCamera;
-
-	/*if (m_SolidRectShader > 0 && m_VBORect > 0)
-	{
-		m_Initialized = true;
-	}*/
+	
+	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
 }
 
 void GameMananager::BuildObjects()
@@ -47,7 +44,11 @@ void GameMananager::BuildObjects()
 
 void GameMananager::MouseInput(int button, int state, int x, int y)
 {
-	m_pMainCamera->ProcessMouseInput(static_cast<float>(x), static_cast<float>(y));
+	//m_pMainCamera->ProcessMouseInput(static_cast<float>(x), static_cast<float>(y));
+}
+void GameMananager::MotionInput(float x, float y)
+{
+	m_pMainCamera->ProcessMouseMovement(x, y);
 }
 
 bool GameMananager::IsInitialized()
@@ -89,7 +90,7 @@ void GameMananager::KeyInput(unsigned char key, int x, int y)
 
 void GameMananager::Animate(float fTimeelapsed)
 {
-	m_pMainCamera->UpdateCamera();
+//	m_pMainCamera->UpdateCamera();
 	glm::vec3 CubeScale = glm::vec3(g_GUIMananger.GetScale());
 	m_pCubeObject->SetinitScale(CubeScale);
 }
@@ -99,8 +100,8 @@ void GameMananager::Render()
 {
 
 	//Program select
-	m_pMainCamera->Render();
-	m_pCubeObject->Render();
+	m_pMainCamera->Render(m_SolidRectShader);
+	m_pCubeObject->Render(m_SolidRectShader);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
