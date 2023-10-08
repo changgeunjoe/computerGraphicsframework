@@ -29,10 +29,11 @@ private:
 	unsigned int m_WindowSizeY{};
 protected:
 	CObject* m_pCubeObject{};
+	CObject* m_pPlaneObject{};
 	CCamera* m_pMainCamera{};
 	
-
-	GLuint m_SolidRectShader = 0;
+	vector<CObject*> m_ppObjects{};
+	GLuint m_SolidRectShader{};
 };
 
 

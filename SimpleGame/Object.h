@@ -22,14 +22,16 @@ protected:
 	vec3 v3_tmpScale=vec3(1.0f);
 	vec3 v3_tmpRotate = vec3(0.0f);
 public:
-	virtual void BuildObject();
-	virtual void Render(GLuint & mShader );
+	virtual void BuildObject(GLuint& mShader);
+	virtual void Render();
 	
 	void SetinitScale(glm::vec3 &Scale);
 	void SetScale(glm::vec3 &Scale);
+	void SetPosition(glm::vec3& Position);
 	void Rotate(float fPitch, float fYaw, float fRoll);
-	void MoveDirection(glm::vec3 direction);
-	CMesh* m_pMesh = NULL;
+	void MoveDirection(glm::vec3& direction);
+	CMesh* m_pMesh{ NULL };
+	GLuint m_pShader{};
 	
 
 

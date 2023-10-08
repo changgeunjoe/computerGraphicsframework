@@ -38,8 +38,18 @@ void GameMananager::Initialize(int windowSizeX, int windowSizeY)
 
 void GameMananager::BuildObjects()
 {
+
 	m_pCubeObject = new CObject;
-	m_pCubeObject->BuildObject();
+	m_pCubeObject->BuildObject(m_SolidRectShader);
+	m_ppObjects.emplace_back(m_pCubeObject);//큐브 오브젝트 넣기 
+
+	m_pPlaneObject = new CObject;
+	m_pPlaneObject->BuildObject(m_SolidRectShader);
+	m_pPlaneObject->SetPosition(vec3(0.0f, -0.7f, 0.0f));
+	m_pPlaneObject->SetScale(vec3(4.0f, 0.5f, 4.0f));
+	m_ppObjects.emplace_back(m_pPlaneObject);//플레인 오브젝트 넣기
+	
+	
 }
 
 void GameMananager::MouseInput(int button, int state, int x, int y)
@@ -63,25 +73,29 @@ void GameMananager::KeyInput(unsigned char key, int x, int y)
 {
 	switch (key) {
 	case 'w':
-		m_pCubeObject->MoveDirection(DIRECTION::Moveforward);
+		m_pMainCamera->ProcessKeyboard(Camera_Movement::FORWARD,0.01);
+		//m_pCubeObject->MoveDirection(DIRECTION::Moveforward);
 		break;
 	case 's':
-		m_pCubeObject->MoveDirection(DIRECTION::MoveBack);
+		m_pMainCamera->ProcessKeyboard(Camera_Movement::BACKWARD, 0.01);
+		//m_pCubeObject->MoveDirection(DIRECTION::MoveBack);
 		break;
 	case 'd':
-		m_pCubeObject->MoveDirection(DIRECTION::MoveRight);
+		m_pMainCamera->ProcessKeyboard(Camera_Movement::RIGHT, 0.01);
+		//m_pCubeObject->MoveDirection(DIRECTION::MoveRight);
 		break;
 	case 'a':
-		m_pCubeObject->MoveDirection(DIRECTION::MoveLeft);
+		m_pMainCamera->ProcessKeyboard(Camera_Movement::LEFT, 0.01);
+		//m_pCubeObject->MoveDirection(DIRECTION::MoveLeft);
 		break;
 	case 'q':
-		m_pCubeObject->MoveDirection(DIRECTION::MoveUp);
+		//m_pCubeObject->MoveDirection(DIRECTION::MoveUp);
 		break;
 	case 'e':
-		m_pCubeObject->MoveDirection(DIRECTION::MoveDown);
+		//m_pCubeObject->MoveDirection(DIRECTION::MoveDown);
 		break;
 	case 'r':
-		m_pCubeObject->Rotate(0,5,0);
+		//m_pCubeObject->Rotate(0,5,0);
 		break;
 	default:
 		break;
@@ -90,7 +104,6 @@ void GameMananager::KeyInput(unsigned char key, int x, int y)
 
 void GameMananager::Animate(float fTimeelapsed)
 {
-//	m_pMainCamera->UpdateCamera();
 	glm::vec3 CubeScale = glm::vec3(g_GUIMananger.GetScale());
 	m_pCubeObject->SetinitScale(CubeScale);
 }
@@ -98,10 +111,14 @@ void GameMananager::Animate(float fTimeelapsed)
 
 void GameMananager::Render()
 {
+	m_pMainCamera->Render(m_SolidRectShader);//카메라 렌더
 
-	//Program select
-	m_pMainCamera->Render(m_SolidRectShader);
-	m_pCubeObject->Render(m_SolidRectShader);
+	for (int i = 0; i < m_ppObjects.size(); ++i) {
+		m_ppObjects[i]->Render();//큐브 오브젝트 렌더
+	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+//	glCullFace(GL_FRONT);
+
+
 }
 

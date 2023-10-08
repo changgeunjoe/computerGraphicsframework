@@ -34,6 +34,9 @@ void MouseInput(int button, int state, int x, int y)
 	g_GameMananager->MouseInput(button, state, x, y);
 	//int imgx = normalize(x);
 	ImGui_ImplGLUT_MouseFunc(button, state, static_cast<int>(x), static_cast<int>(y));
+	if (state == 0) {
+		firstMouse = true;
+	}
 }
 
 void motionCall(int x, int y)
@@ -110,6 +113,7 @@ int main(int argc, char **argv)
 	}
 	g_GameMananager->BuildObjects();
 	
+	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CW);
 	glCullFace(GL_FRONT);

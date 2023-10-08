@@ -19,25 +19,26 @@ CObject::~CObject()
 
 
 
-void CObject::BuildObject()
+void CObject::BuildObject(GLuint& mShader)
 {
 	m_pMesh->BuildCubeMesh(0.5,0.5,0.5);//큐브 메쉬 만들기
+	m_pShader = mShader;
 	
 }
 
-void CObject::Render(GLuint &mShader )
+void CObject::Render( )
 {
-	glUseProgram(mShader);
+	glUseProgram(m_pShader);
 
 
-	int posLoc = glGetAttribLocation(mShader, "a_Position");
+	int posLoc = glGetAttribLocation(m_pShader, "a_Position");
 	glEnableVertexAttribArray(posLoc);
 	glBindBuffer(GL_ARRAY_BUFFER, m_pMesh->m_VBORect);
 	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE,
 		sizeof(float) * 3, 0);
 
 	
-	glUniformMatrix4fv(glGetUniformLocation(mShader, "u_WorldMatrix"),1, GL_FALSE, glm::value_ptr(m_xmf4x4World));
+	glUniformMatrix4fv(glGetUniformLocation(m_pShader, "u_WorldMatrix"),1, GL_FALSE, glm::value_ptr(m_xmf4x4World));
 
 	//glUniformMatrix4fv(glGetUniformLocation(mShader, "u_ViewMatrix"), 1, GL_FALSE, glm::value_ptr(m_xmf4x4viewWorld));
 
@@ -68,8 +69,14 @@ void CObject::Rotate(float fPitch, float fYaw, float fRoll)
 	//m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fRoll), glm::vec3(0, 0, 1.0));//자전
 }
 
-void CObject::MoveDirection(glm::vec3 direction)
+void CObject::MoveDirection(glm::vec3 &direction)
 {
 	m_xmf4x4World = glm::translate(m_xmf4x4World, direction* f_Speed);
 }
+
+void CObject::SetPosition(glm::vec3 &Position)
+{
+	m_xmf4x4World = glm::translate(m_xmf4x4World, Position );
+}
+
 

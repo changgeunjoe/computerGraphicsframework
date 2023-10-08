@@ -13,5 +13,5 @@ out vec3 v_Color;
 void main()
 {
 	v_Color=a_Position*5;
-	gl_Position = u_WorldMatrix *u_ViewMatrix* vec4(a_Position, 1.0f);
+	gl_Position = u_ProjMatrix* u_ViewMatrix*u_WorldMatrix* vec4(a_Position, 1.0f);
 }
