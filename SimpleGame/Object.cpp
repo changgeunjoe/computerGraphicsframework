@@ -14,7 +14,7 @@ CObject::CObject()
 
 CObject::~CObject()
 {
-
+	delete m_pMesh;
 }
 
 
@@ -40,8 +40,6 @@ void CObject::Render( )
 	
 	glUniformMatrix4fv(glGetUniformLocation(m_pShader, "u_WorldMatrix"),1, GL_FALSE, glm::value_ptr(m_xmf4x4World));
 
-	//glUniformMatrix4fv(glGetUniformLocation(mShader, "u_ViewMatrix"), 1, GL_FALSE, glm::value_ptr(m_xmf4x4viewWorld));
-
 	glDrawArrays(GL_TRIANGLES, 0, 36);//레스터라이제이션
 }
 
@@ -64,9 +62,6 @@ void CObject::SetScale(glm::vec3 &Scale)
 void CObject::Rotate(float fPitch, float fYaw, float fRoll)
 {
 	v3_tmpRotate += vec3(fPitch, fYaw, fRoll);
-	//m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fPitch), glm::vec3(1.0, 0, 0));//자전
-	//m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fYaw), glm::vec3(0, 1.0, 0));//자전
-	//m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(fRoll), glm::vec3(0, 0, 1.0));//자전
 }
 
 void CObject::MoveDirection(glm::vec3 &direction)

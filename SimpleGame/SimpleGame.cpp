@@ -91,7 +91,7 @@ int main(int argc, char **argv)
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(SCR_WIDTH, SCR_HEIGHT);
-	glutCreateWindow("Game Software Engineering KPU");
+	glutCreateWindow("FrameWork WARP(game engineering group)");
 
 	glewInit();
 
@@ -122,17 +122,12 @@ int main(int argc, char **argv)
 
 
 	glutSpecialFunc(SpecialKeyInput);
-	//g_GUIMananger = new GUIMgr();
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);
 	g_GUIMananger.Init();
 	glutKeyboardFunc(KeyInput);
 	glutMouseFunc(MouseInput);
 	glutMotionFunc(motionCall);
-	
-	//glutMotionFunc(motionCall);
-
-
 	glutMainLoop();
 	
 

@@ -24,6 +24,7 @@ GameMananager::GameMananager(int windowSizeX, int windowSizeY)
 
 GameMananager::~GameMananager()
 {
+
 }
 
 void GameMananager::Initialize(int windowSizeX, int windowSizeY)
@@ -32,7 +33,7 @@ void GameMananager::Initialize(int windowSizeX, int windowSizeY)
 	m_WindowSizeX = windowSizeX;
 	m_WindowSizeY = windowSizeY;
 	m_pMainCamera = new CCamera;
-	
+	m_pMainCamera->SetPosition(vec3(0.0f, 0.0f, 5.0f));
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
 }
 
@@ -47,7 +48,7 @@ void GameMananager::BuildObjects()
 	m_pPlaneObject->BuildObject(m_SolidRectShader);
 	m_pPlaneObject->SetPosition(vec3(0.0f, -0.7f, 0.0f));
 	m_pPlaneObject->SetScale(vec3(4.0f, 0.5f, 4.0f));
-	m_ppObjects.emplace_back(m_pPlaneObject);//플레인 오브젝트 넣기
+	m_ppObjects.emplace_back(m_pPlaneObject);//바닥 오브젝트 넣기
 	
 	
 }
@@ -74,28 +75,21 @@ void GameMananager::KeyInput(unsigned char key, int x, int y)
 	switch (key) {
 	case 'w':
 		m_pMainCamera->ProcessKeyboard(Camera_Movement::FORWARD,0.01);
-		//m_pCubeObject->MoveDirection(DIRECTION::Moveforward);
 		break;
 	case 's':
 		m_pMainCamera->ProcessKeyboard(Camera_Movement::BACKWARD, 0.01);
-		//m_pCubeObject->MoveDirection(DIRECTION::MoveBack);
 		break;
 	case 'd':
 		m_pMainCamera->ProcessKeyboard(Camera_Movement::RIGHT, 0.01);
-		//m_pCubeObject->MoveDirection(DIRECTION::MoveRight);
 		break;
 	case 'a':
 		m_pMainCamera->ProcessKeyboard(Camera_Movement::LEFT, 0.01);
-		//m_pCubeObject->MoveDirection(DIRECTION::MoveLeft);
 		break;
 	case 'q':
-		//m_pCubeObject->MoveDirection(DIRECTION::MoveUp);
 		break;
 	case 'e':
-		//m_pCubeObject->MoveDirection(DIRECTION::MoveDown);
 		break;
 	case 'r':
-		//m_pCubeObject->Rotate(0,5,0);
 		break;
 	default:
 		break;

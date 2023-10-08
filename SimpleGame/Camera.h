@@ -104,6 +104,7 @@ public:
             Zoom = 45.0f;
     }
     void Render(GLuint& m_Shader);
+    void SetPosition(glm::vec3& Position);
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors()

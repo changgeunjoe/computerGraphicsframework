@@ -13,3 +13,8 @@ void CCamera::Render(GLuint& m_Shader)
     glUniformMatrix4fv(glGetUniformLocation(m_Shader, "u_ProjMatrix"), 1, GL_FALSE, glm::value_ptr(projection));
 
 }
+
+void CCamera::SetPosition(glm::vec3& v3Position)
+{
+    Position = v3Position;
+}
