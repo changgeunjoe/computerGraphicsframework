@@ -113,6 +113,6 @@ void GameMananager::Render()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 //	glCullFace(GL_FRONT);
 
-
+//
 }
 
