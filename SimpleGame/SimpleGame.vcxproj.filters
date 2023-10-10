@@ -19,6 +19,9 @@
     <Filter Include="Imgui">
       <UniqueIdentifier>{74004b1a-2734-4a11-b093-8d6de1a8b8e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physx">
+      <UniqueIdentifier>{3d762217-1b49-45e0-8a8a-83c4b6655464}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -72,6 +75,9 @@
     <ClInclude Include="Camera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Physx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -114,6 +120,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
