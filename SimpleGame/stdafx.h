@@ -14,6 +14,7 @@
 #include "Dependencies/glm/glm.hpp"
 #include "Dependencies/glm/gtc/matrix_transform.hpp"
 #include "Dependencies/glm/gtc/type_ptr.hpp"
+#include "Dependencies/glm/gtc/quaternion.hpp"
 
 #include "Imgui/imgui_impl_glut.h"
 #include "Imgui/imgui.h"

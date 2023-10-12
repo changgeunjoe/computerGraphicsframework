@@ -11,6 +11,9 @@ GUIMgr g_GUIMananger ;
 bool firstMouse{ true};
 float lastX{};
 float lastY{};
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

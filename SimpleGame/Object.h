@@ -25,6 +25,7 @@ public:
 	virtual void BuildObject(GLuint& mShader);
 	virtual void Render();
 	
+	void SetinitRotate(glm::vec3& Rotate);
 	void SetinitScale(glm::vec3 &Scale);
 	void SetScale(glm::vec3 &Scale);
 	void SetPosition(glm::vec3& Position);

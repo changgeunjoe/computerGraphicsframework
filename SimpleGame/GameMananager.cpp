@@ -4,6 +4,7 @@
 #include "Object.h"
 #include "GUIMGR.h"
 #include"Camera.h"
+#include"Physx.h"
 
 extern GUIMgr g_GUIMananger;
 
@@ -32,13 +33,19 @@ void GameMananager::Initialize(int windowSizeX, int windowSizeY)
 	//Set window size
 	m_WindowSizeX = windowSizeX;
 	m_WindowSizeY = windowSizeY;
+
+	m_pPhysisc = new CPhysx;
+	m_pPhysisc->init();
 	m_pMainCamera = new CCamera;
-	m_pMainCamera->SetPosition(vec3(0.0f, 0.0f, 5.0f));
+	m_pMainCamera->SetPosition(vec3(0.0f, 6.0f, 9.0f));
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
 }
 
 void GameMananager::BuildObjects()
 {
+
+	m_pPhysisc->BuiidActor();
+
 
 	m_pCubeObject = new CObject;
 	m_pCubeObject->BuildObject(m_SolidRectShader);
@@ -100,6 +107,8 @@ void GameMananager::Animate(float fTimeelapsed)
 {
 	glm::vec3 CubeScale = glm::vec3(g_GUIMananger.GetScale());
 	m_pCubeObject->SetinitScale(CubeScale);
+
+	m_pPhysisc->UpdatePhysics(m_ppObjects);
 }
 
 

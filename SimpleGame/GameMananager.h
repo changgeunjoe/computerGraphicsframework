@@ -1,7 +1,7 @@
 #pragma once
 class CObject;
 class CCamera;
-
+class CPhysx;
 class GameMananager
 {
 public:
@@ -28,6 +28,8 @@ private:
 	unsigned int m_WindowSizeX{};
 	unsigned int m_WindowSizeY{};
 protected:
+
+	CPhysx* m_pPhysisc{};
 	CObject* m_pCubeObject{};
 	CObject* m_pPlaneObject{};
 	CCamera* m_pMainCamera{};

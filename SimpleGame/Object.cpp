@@ -21,7 +21,7 @@ CObject::~CObject()
 
 void CObject::BuildObject(GLuint& mShader)
 {
-	m_pMesh->BuildCubeMesh(0.5,0.5,0.5);//큐브 메쉬 만들기
+	m_pMesh->BuildCubeMesh(2,2,2);//큐브 메쉬 만들기
 	m_pShader = mShader;
 	
 }
@@ -54,6 +54,24 @@ void CObject::SetinitScale(glm::vec3 &Scale)
 	m_xmf4x4World = glm::rotate(m_xmf4x4World, glm::radians(v3_tmpRotate.z), glm::vec3(0, 0, 1.0));//자전
 }
 
+void CObject::SetinitRotate(glm::vec3& Rotate)
+{
+	glm::mat4 tmpxmf4x4world = m_xmf4x4World;
+	glm::mat4 initmatrix = glm::mat4(1.0f);
+
+	
+
+	glm::quat quat = glm::quat(glm::vec3(
+		glm::radians(Rotate.x),
+		glm::radians(Rotate.y),
+		glm::radians(Rotate.z)));
+	
+	glm::mat4 rotation = glm::mat4_cast(quat);
+	initmatrix = initmatrix * rotation;
+	m_xmf4x4World = initmatrix;
+	m_xmf4x4World[3] = tmpxmf4x4world[3];
+}
+
 void CObject::SetScale(glm::vec3 &Scale)
 {
 	m_xmf4x4World = glm::scale(m_xmf4x4World, Scale);//자전
@@ -71,7 +89,10 @@ void CObject::MoveDirection(glm::vec3 &direction)
 
 void CObject::SetPosition(glm::vec3 &Position)
 {
-	m_xmf4x4World = glm::translate(m_xmf4x4World, Position );
+
+	glm::mat4 initmatrix = glm::mat4(1.0f);
+	initmatrix= glm::translate(initmatrix, Position);
+	m_xmf4x4World[3] = initmatrix[3];
 }
 
 
