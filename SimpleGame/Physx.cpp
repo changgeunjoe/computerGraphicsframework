@@ -1,5 +1,6 @@
 #include "Physx.h"
-#include"Object.h"
+#include "Object.h"
+#include"Mesh.h"
 #include"stdafx.h"
 
 CPhysx::CPhysx()
@@ -39,7 +40,19 @@ void CPhysx::init()
     }
     if (!PxInitExtensions(*mPhysics, mPvd))
         std::cout << "PxInitExtensions failed!" << std::endl;
-    
+    Pxcooking = new physx::PxCookingParams(physx::PxTolerancesScale());
+    Pxcooking->meshWeldTolerance = 0.001f;
+    Pxcooking->meshPreprocessParams = physx::PxMeshPreprocessingFlag::eWELD_VERTICES; // 메시 전처리 옵션을 설정
+    Pxcooking->buildTriangleAdjacencies = true;
+    Pxcooking->buildGPUData = true;
+   // Pxcooking->mesh = physx::PxMeshCookingHint::eCOOKING_PERFORMANCE; // 요리 힌트 설정
+
+   // Pxcooking(physx::PxTolerancesScale());
+
+
+ /*   cook::PxCooking* cook = PxCreateCooking(PX_PHYSICS_VERSION, *foundation, cookingParams);
+    physx::pxcooking*/
+
 
   //  Pxcooking->meshWeldTolerance = 0.01f; // 메시 용접 허용 오차 설정 (원하는 값으로 변경)
    // Pxcooking->meshPreprocessParams = physx::PxMeshPreprocessingFlag::eWELD_VERTICES;
@@ -75,7 +88,7 @@ void CPhysx::init()
 
 }
 
-bool CPhysx::BuiidActor()
+bool CPhysx::BuildActor()
 {
     aCubeActor = physx::PxCreateDynamic(*mPhysics, physx::PxTransform(physx::PxVec3(0.0f, 10.0f, 0.0f)), physx::PxBoxGeometry(1.0f, 1.0f, 1.0f),
         *mMaterial, denstiy);
@@ -85,7 +98,7 @@ bool CPhysx::BuiidActor()
         std::cout << "PHYSX ERROR!!: create aCubeActor failed!" << std::endl;
         return -1;
     }
-    mScene->addActor(*aCubeActor);
+   // mScene->addActor(*aCubeActor);
     
     aCubeActor2 = physx::PxCreateDynamic(*mPhysics, physx::PxTransform(physx::PxVec3(0.0f, 30.0f, 0.0f)), physx::PxBoxGeometry(1.0f, 1.0f, 1.0f),
         *mMaterial, denstiy);
@@ -116,13 +129,58 @@ bool CPhysx::BuiidActor()
 
 }
 
+void CPhysx::addDynamicTriangleMeshInstance(const physx::PxTransform& transform, physx::PxTriangleMesh* mesh)
+{
+    //dyn = mPhysics->createRigidDynamic(transform);
+
+    //dyn->setLinearDamping(0.2f);
+    //dyn->setAngularDamping(0.1f);
+    //physx::PxTriangleMeshGeometry geom;//물체의 기하 구조
+    //geom.triangleMesh = mesh;
+    //geom.scale = physx::PxVec3(0.1f, 0.1f, 0.1f);
+
+    //dyn->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_GYROSCOPIC_FORCES, true);
+    //dyn->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD, true);
+
+    //physx::PxShape* shape = physx::PxRigidActorExt::createExclusiveShape(*dyn, geom, *mMaterial, physx::PxShapeFlag::eTRIGGER_SHAPE);
+    //shape->setContactOffset(0.1f);
+    //shape->setRestOffset(0.02f);
+
+    //physx::PxReal density = 100.f;
+    //physx::PxRigidBodyExt::updateMassAndInertia(*dyn, density);
+
+    //mScene->addActor(*dyn);
+
+    //dyn->setSolverIterationCounts(50, 1);
+    //dyn->setMaxDepenetrationVelocity(5.f);
+
+     dyn= mPhysics->createRigidDynamic(transform);
+    physx::PxShape* meshShape, * convexShape;
+    if (dyn)
+    {
+        dyn->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
+       // meshActor->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::el, true);
+       // meshActor->setRigidDynamicFlag(PxRigidDynamicFlag::eKINEMATIC, true);
+
+        physx::PxTriangleMeshGeometry triGeom;
+        triGeom.triangleMesh = mesh;
+        meshShape = physx::PxRigidActorExt::createExclusiveShape(*dyn, triGeom,
+            *mMaterial);
+        mScene->addActor(*dyn);
+        /*physx::PxConvexMeshGeometry convexGeom = physx::PxConvexMeshGeometry();
+        meshShape = physx::PxRigidActorExt::createExclusiveShape(*dyn, convexGeom,
+            *mMaterial);*/
+    }
+
+}
+
 void CPhysx::UpdatePhysics(vector<CObject*> mppObjects)
 {
     mScene->simulate(1.0f / 144.0f);
     mScene->fetchResults(true);
 
-    physx::PxVec3 aPos = aCubeActor->getGlobalPose().p;
-    physx::PxQuat pxQuat = aCubeActor->getGlobalPose().q;
+    physx::PxVec3 aPos = dyn->getGlobalPose().p;
+    physx::PxQuat pxQuat = dyn->getGlobalPose().q;
 
     glm::quat glmQuat = glm::quat(pxQuat.w, pxQuat.x, pxQuat.y, pxQuat.z);
 
@@ -140,4 +198,46 @@ void CPhysx::UpdatePhysics(vector<CObject*> mppObjects)
 
     mppObjects[1]->SetPosition(vec3(aPos.x, aPos.y, aPos.z));
     mppObjects[1]->SetinitRotate(glm::vec3(glm::degrees(euler.x), glm::degrees(euler.y), glm::degrees(euler.z)));
+}
+
+physx::PxTriangleMesh* CPhysx::CreateTriangleMesh(CObject* Object)
+{
+    std::vector<physx::PxVec3> cVerts;
+    std::vector<physx::PxU32> cInds;
+
+    //Drawable* drw = dynamic_cast<Drawable*>(gm);
+
+    for (int i = 0; i < Object->m_pMesh->m_vVertices.size(); i++)
+    {
+
+        cVerts.push_back(physx::PxVec3(Object->m_pMesh->m_vVertices[i].m_xmf3Coordinate.x, Object->m_pMesh->m_vVertices[i].m_xmf3Coordinate.y, Object->m_pMesh->m_vVertices[i].m_xmf3Coordinate.z));
+    }
+
+    for (int i = 0; i < Object->m_pMesh->m_nindices.size(); i++)
+    {
+        cInds.push_back(Object->m_pMesh->m_nindices[i]);
+    }
+
+    physx::PxTriangleMeshDesc meshDesc;
+    meshDesc.points.count = static_cast<physx::PxU32>(cVerts.size());
+    meshDesc.points.stride = sizeof(physx::PxVec3);
+    meshDesc.points.data = &cVerts[0];
+
+    meshDesc.triangles.count = static_cast<physx::PxU32>(cInds.size() / 3);
+    meshDesc.triangles.stride = 3 * sizeof(physx::PxU32);
+    meshDesc.triangles.data = &cInds[0];
+
+    physx::PxDefaultMemoryOutputStream writeBuffer;
+    physx::PxTriangleMeshCookingResult::Enum result;
+    bool status =PxCookTriangleMesh(*Pxcooking,meshDesc, writeBuffer, &result);
+      // bool status = rbDesc.mCooking->cookTriangleMesh(meshDesc, writeBuffer, &result);
+
+       if (!status)
+       {
+       	std::cout << "PHYSX ERROR!!: cookTriangleMesh failed!" << std::endl;
+       	return nullptr;
+       }
+
+    physx::PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
+    return mPhysics->createTriangleMesh(readBuffer);
 }

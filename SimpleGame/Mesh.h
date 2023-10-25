@@ -25,9 +25,18 @@ public:
 	UINT m_nStride = 0;
 	UINT m_nOffset = 0;
 	GLuint m_VBORect = 0;
+	GLuint m_EBORect = 0;
+	UINT m_nTextures = 0;
+	UINT m_nNormals = 0;
+	UINT m_nFaces = 0;
 
+	vector<CVertex> m_vVertices;
+	std::vector<unsigned int> m_nindices;
+	vector<glm::vec2> m_vTextures;
+	vector<glm::vec3> m_vNormals;
 public:
 	virtual void BuildCubeMesh(float fWidth, float fHeight, float fDepth);
+	virtual void BuildObjMesh(const char* filename);
 
 };
 

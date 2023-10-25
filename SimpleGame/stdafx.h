@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include<vector>
+#include <vector>
 #include "Dependencies\glew.h"
 #include <stdio.h>
 #include <tchar.h>
@@ -22,7 +22,7 @@
 
 using namespace std;
 using namespace glm;
-
+//using namespace physx;
 
 bool ReadFile(char* filename, std::string* target);
 void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType);

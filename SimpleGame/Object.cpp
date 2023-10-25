@@ -19,9 +19,10 @@ CObject::~CObject()
 
 
 
-void CObject::BuildObject(GLuint& mShader)
+void CObject::BuildObject(GLuint& mShader,  const char* fn)
 {
-	m_pMesh->BuildCubeMesh(2,2,2);//큐브 메쉬 만들기
+	//m_pMesh->BuildCubeMesh(2,2,2);//큐브 메쉬 만들기
+	m_pMesh->BuildObjMesh(fn);
 	m_pShader = mShader;
 	
 }
@@ -31,16 +32,22 @@ void CObject::Render( )
 	glUseProgram(m_pShader);
 
 
+
 	int posLoc = glGetAttribLocation(m_pShader, "a_Position");
 	glEnableVertexAttribArray(posLoc);
 	glBindBuffer(GL_ARRAY_BUFFER, m_pMesh->m_VBORect);
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pMesh->m_EBORect); //--- GL_ELEMENT_ARRAY_BUFFER 버퍼 유형으로 바인딩
 	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE,
 		sizeof(float) * 3, 0);
+	glUniformMatrix4fv(glGetUniformLocation(m_pShader, "u_WorldMatrix"), 1, GL_FALSE, glm::value_ptr(m_xmf4x4World));
 
-	
-	glUniformMatrix4fv(glGetUniformLocation(m_pShader, "u_WorldMatrix"),1, GL_FALSE, glm::value_ptr(m_xmf4x4World));
 
-	glDrawArrays(GL_TRIANGLES, 0, 36);//레스터라이제이션
+	glDrawElements(GL_TRIANGLES, m_pMesh->m_nFaces * 3, GL_UNSIGNED_INT, 0);
+}
+
+vec3 CObject::GetPosition()
+{
+	return m_xmf4x4World[3];
 }
 
 void CObject::SetinitScale(glm::vec3 &Scale)

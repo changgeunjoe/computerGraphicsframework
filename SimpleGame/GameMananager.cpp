@@ -44,15 +44,20 @@ void GameMananager::Initialize(int windowSizeX, int windowSizeY)
 void GameMananager::BuildObjects()
 {
 
-	m_pPhysisc->BuiidActor();
+	m_pPhysisc->BuildActor();
 
 
 	m_pCubeObject = new CObject;
-	m_pCubeObject->BuildObject(m_SolidRectShader);
+	m_pCubeObject->BuildObject(m_SolidRectShader,"sqqq2.obj");
 	m_ppObjects.emplace_back(m_pCubeObject);//큐브 오브젝트 넣기 
+	physx::PxTriangleMesh* TriangleMesh = m_pPhysisc->CreateTriangleMesh(m_pCubeObject);
+	m_pPhysisc->addDynamicTriangleMeshInstance(physx::PxTransform(physx::PxVec3(0.4f, 10.0f, 0.0f)), TriangleMesh);
+
+	//physx::PxTriangleMesh* TriangleMesh = m_pPhysisc->CreateTriangleMesh(m_pCubeObject);
+	//m_pPhysisc->addDynamicTriangleMeshInstance(physx::PxTransform(physx::PxVec3(0.4f, 10.0f, 0.0f)), TriangleMesh);
 
 	m_pPlaneObject = new CObject;
-	m_pPlaneObject->BuildObject(m_SolidRectShader);
+	m_pPlaneObject->BuildObject(m_SolidRectShader, "sqqq2.obj");
 	m_pPlaneObject->SetPosition(vec3(0.0f, -0.7f, 0.0f));
 	m_pPlaneObject->SetScale(vec3(4.0f, 0.5f, 4.0f));
 	m_ppObjects.emplace_back(m_pPlaneObject);//바닥 오브젝트 넣기
@@ -109,6 +114,8 @@ void GameMananager::Animate(float fTimeelapsed)
 	m_pCubeObject->SetinitScale(CubeScale);
 
 	m_pPhysisc->UpdatePhysics(m_ppObjects);
+
+	//m_pMainCamera->SetPosition(vec3(m_pCubeObject->GetPosition().x, m_pCubeObject->GetPosition().y, m_pCubeObject->GetPosition().z + 10));
 }
 
 
@@ -119,8 +126,15 @@ void GameMananager::Render()
 	for (int i = 0; i < m_ppObjects.size(); ++i) {
 		m_ppObjects[i]->Render();//큐브 오브젝트 렌더
 	}
+
+	qobj = gluNewQuadric(); // 객체 생성하기
+	gluQuadricDrawStyle(qobj, GLU_LINE); // 도형 스타일
+	gluQuadricNormals(qobj, GLU_SMOOTH); //? 생략 가능
+	gluQuadricOrientation(qobj, GLU_OUTSIDE); //? 생략 가능
+	gluSphere(qobj, 1.5, 50, 50);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-//	glCullFace(GL_FRONT);
+	glCullFace(GL_FRONT);
 
 
 }

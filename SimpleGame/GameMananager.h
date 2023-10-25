@@ -33,6 +33,7 @@ protected:
 	CObject* m_pCubeObject{};
 	CObject* m_pPlaneObject{};
 	CCamera* m_pMainCamera{};
+	GLUquadricObj* qobj;
 	
 	vector<CObject*> m_ppObjects{};
 	GLuint m_SolidRectShader{};

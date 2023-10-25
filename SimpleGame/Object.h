@@ -22,9 +22,9 @@ protected:
 	vec3 v3_tmpScale=vec3(1.0f);
 	vec3 v3_tmpRotate = vec3(0.0f);
 public:
-	virtual void BuildObject(GLuint& mShader);
+	virtual void BuildObject(GLuint& mShader, const char* fn);
 	virtual void Render();
-	
+	vec3 GetPosition();
 	void SetinitRotate(glm::vec3& Rotate);
 	void SetinitScale(glm::vec3 &Scale);
 	void SetScale(glm::vec3 &Scale);
