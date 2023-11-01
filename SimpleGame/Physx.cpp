@@ -154,11 +154,11 @@ void CPhysx::addDynamicTriangleMeshInstance(const physx::PxTransform& transform,
     //dyn->setSolverIterationCounts(50, 1);
     //dyn->setMaxDepenetrationVelocity(5.f);
 
-     dyn= mPhysics->createRigidDynamic(transform);
+    physx::PxRigidDynamic* dyn= mPhysics->createRigidDynamic(transform);
     physx::PxShape* meshShape, * convexShape;
     if (dyn)
     {
-        dyn->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
+        dyn->setRigidBodyFlag(physx::PxRigidBodyFlag::eUSE_KINEMATIC_TARGET_FOR_SCENE_QUERIES, true);
        // meshActor->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::el, true);
        // meshActor->setRigidDynamicFlag(PxRigidDynamicFlag::eKINEMATIC, true);
 
@@ -171,7 +171,51 @@ void CPhysx::addDynamicTriangleMeshInstance(const physx::PxTransform& transform,
         meshShape = physx::PxRigidActorExt::createExclusiveShape(*dyn, convexGeom,
             *mMaterial);*/
     }
+    dyns.push_back(dyn);
+}
+void CPhysx::addDynamicTriangleMeshInstancemove(const physx::PxTransform& transform, physx::PxTriangleMesh* mesh)
+{
+    //dyn = mPhysics->createRigidDynamic(transform);
 
+    //dyn->setLinearDamping(0.2f);
+    //dyn->setAngularDamping(0.1f);
+    //physx::PxTriangleMeshGeometry geom;//물체의 기하 구조
+    //geom.triangleMesh = mesh;
+    //geom.scale = physx::PxVec3(0.1f, 0.1f, 0.1f);
+
+    //dyn->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_GYROSCOPIC_FORCES, true);
+    //dyn->setRigidBodyFlag(physx::PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD, true);
+
+    //physx::PxShape* shape = physx::PxRigidActorExt::createExclusiveShape(*dyn, geom, *mMaterial, physx::PxShapeFlag::eTRIGGER_SHAPE);
+    //shape->setContactOffset(0.1f);
+    //shape->setRestOffset(0.02f);
+
+    //physx::PxReal density = 100.f;
+    //physx::PxRigidBodyExt::updateMassAndInertia(*dyn, density);
+
+    //mScene->addActor(*dyn);
+
+    //dyn->setSolverIterationCounts(50, 1);
+    //dyn->setMaxDepenetrationVelocity(5.f);
+
+    physx::PxRigidDynamic* dyn = mPhysics->createRigidDynamic(transform);
+    physx::PxShape* meshShape, * convexShape;
+    if (dyn)
+    {
+        dyn->setActorFlag(physx::PxActorFlag::eVISUALIZATION, true);
+        // meshActor->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::el, true);
+        // meshActor->setRigidDynamicFlag(PxRigidDynamicFlag::eKINEMATIC, true);
+
+        physx::PxTriangleMeshGeometry triGeom;
+        triGeom.triangleMesh = mesh;
+        meshShape = physx::PxRigidActorExt::createExclusiveShape(*dyn, triGeom,
+            *mMaterial);
+        mScene->addActor(*dyn);
+        /*physx::PxConvexMeshGeometry convexGeom = physx::PxConvexMeshGeometry();
+        meshShape = physx::PxRigidActorExt::createExclusiveShape(*dyn, convexGeom,
+            *mMaterial);*/
+    }
+    dyns.push_back(dyn);
 }
 
 void CPhysx::UpdatePhysics(vector<CObject*> mppObjects)
@@ -179,8 +223,8 @@ void CPhysx::UpdatePhysics(vector<CObject*> mppObjects)
     mScene->simulate(1.0f / 144.0f);
     mScene->fetchResults(true);
 
-    physx::PxVec3 aPos = dyn->getGlobalPose().p;
-    physx::PxQuat pxQuat = dyn->getGlobalPose().q;
+    physx::PxVec3 aPos = dyns[0]->getGlobalPose().p;
+    physx::PxQuat pxQuat = dyns[0]->getGlobalPose().q;
 
     glm::quat glmQuat = glm::quat(pxQuat.w, pxQuat.x, pxQuat.y, pxQuat.z);
 
@@ -189,8 +233,8 @@ void CPhysx::UpdatePhysics(vector<CObject*> mppObjects)
     mppObjects[0]->SetPosition(vec3( aPos.x, aPos.y, aPos.z));
     mppObjects[0]->SetinitRotate(glm::vec3(glm::degrees(euler.x), glm::degrees(euler.y), glm::degrees(euler.z)));
 
-    aPos = aCubeActor2->getGlobalPose().p;
-    pxQuat = aCubeActor2->getGlobalPose().q;
+    aPos = dyns[1]->getGlobalPose().p;
+    pxQuat = dyns[1]->getGlobalPose().q;
 
     glmQuat = glm::quat(pxQuat.w, pxQuat.x, pxQuat.y, pxQuat.z);
 

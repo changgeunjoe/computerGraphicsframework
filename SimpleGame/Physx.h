@@ -16,6 +16,7 @@ public:
 	bool BuildActor();
 
 	void addDynamicTriangleMeshInstance(const physx::PxTransform& transform, physx::PxTriangleMesh* mesh);
+	void addDynamicTriangleMeshInstancemove(const physx::PxTransform& transform, physx::PxTriangleMesh* mesh);
 	void UpdatePhysics(vector<CObject*> mppObjects);
 	physx::PxTriangleMesh* CreateTriangleMesh(CObject* gm);
 private:
@@ -29,7 +30,8 @@ private:
 	physx::PxReal denstiy = 10;
 	physx::PxRigidDynamic* aCubeActor;
 	physx::PxRigidDynamic* aCubeActor2;
-	physx::PxRigidDynamic* dyn;
+	
+	vector< physx::PxRigidDynamic*> dyns;
 	physx::PxRigidStatic* plane;
 };
 

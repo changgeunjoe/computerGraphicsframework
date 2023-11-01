@@ -48,18 +48,21 @@ void GameMananager::BuildObjects()
 
 
 	m_pCubeObject = new CObject;
-	m_pCubeObject->BuildObject(m_SolidRectShader,"sqqq2.obj");
+	m_pCubeObject->BuildObject(m_SolidRectShader,"cube.obj");
 	m_ppObjects.emplace_back(m_pCubeObject);//큐브 오브젝트 넣기 
 	physx::PxTriangleMesh* TriangleMesh = m_pPhysisc->CreateTriangleMesh(m_pCubeObject);
 	m_pPhysisc->addDynamicTriangleMeshInstance(physx::PxTransform(physx::PxVec3(0.4f, 10.0f, 0.0f)), TriangleMesh);
 
-	//physx::PxTriangleMesh* TriangleMesh = m_pPhysisc->CreateTriangleMesh(m_pCubeObject);
-	//m_pPhysisc->addDynamicTriangleMeshInstance(physx::PxTransform(physx::PxVec3(0.4f, 10.0f, 0.0f)), TriangleMesh);
+
 
 	m_pPlaneObject = new CObject;
-	m_pPlaneObject->BuildObject(m_SolidRectShader, "sqqq2.obj");
+	m_pPlaneObject->BuildObject(m_SolidRectShader, "cube.obj");
 	m_pPlaneObject->SetPosition(vec3(0.0f, -0.7f, 0.0f));
 	m_pPlaneObject->SetScale(vec3(4.0f, 0.5f, 4.0f));
+
+	physx::PxTriangleMesh* TriangleMesh2 = m_pPhysisc->CreateTriangleMesh(m_pPlaneObject);
+	m_pPhysisc->addDynamicTriangleMeshInstancemove(physx::PxTransform(physx::PxVec3(0.4f, 30.0f, 0.0f)), TriangleMesh2);
+
 	m_ppObjects.emplace_back(m_pPlaneObject);//바닥 오브젝트 넣기
 	
 	
